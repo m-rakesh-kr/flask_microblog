@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+
+    <h1>Hi, {{ current_user.username }}!</h1>
+    {% if form %}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
+    {% if unfollowed_users %}
+        <h3>Users you may also know:</h3>
+        <li>
+            {% for user in unfollowed_users[:3] %}
+
+                <a href="{{ url_for('main.user', username=user.username) }}">
+                    <img src="{{ user.avatar(40) }}" alt="{{ user.username }}" class="user-avatar"/>
+                </a>
+                <a href="{{ url_for('main.user', username=user.username) }}" class="user-username">
+                    {{ user.username }}
+                </a>
+
+            {% endfor %}
+        </li>
+    {% endif %}
+    <h3>Your Timeline Posts:</h3>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not prev_url %} disabled{% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> Newer posts
+                </a>
+            </li>
+            <li class="next{% if not next_url %} disabled{% endif %}">
+                <a href="{{ next_url or '#' }}">
+                    Older posts <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+
+
+

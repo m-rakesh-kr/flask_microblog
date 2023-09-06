@@ -1,0 +1,13 @@
+<!-- view_comments.html -->
+{% extends 'base.html' %}
+
+{% block app_content %}
+    <h4>Comments for Post</h4>
+    <p>Post Body:- {{ post.body }}</p>
+    <p>Comments of Users</p>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.user.username }} ({{ moment(comment.timestamp).fromNow() }}) said:- {{ comment.body }} </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

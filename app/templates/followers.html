@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h4>Followers of {{ user.username }}</h4>
+    <ul>
+        {% for follower in followers.items %}
+            <li>
+                <a href="{{ url_for('main.user', username=follower.username) }}">{{ follower.username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not followers.has_prev %} disabled{% endif %}">
+                <a href="{{ url_for('main.followers', username=user.username, page=followers.prev_num) }}">
+                    <span aria-hidden="true">&larr;</span> Previous
+                </a>
+            </li>
+            <li class="next{% if not followers.has_next %} disabled{% endif %}">
+                <a href="{{ url_for('main.followers', username=user.username, page=followers.next_num) }}">
+                    Next <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
