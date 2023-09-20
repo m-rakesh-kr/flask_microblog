@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,3 +31,28 @@ class Config(object):
     POSTS_PER_PAGE = 3  # recommended 25
     FOLLOWERS_PER_PAGE = 10
     UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+
+    # Credentials of Social Authentication Providers
+
+    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
+
+
+class CeleryConfig:
+    CELERY_IMPORTS = ('app.main.tasks',)
+    CELERY_TASK_RESULT_EXPIRES = 30
+    CELERY_TASK_TRACK_STARTED = True
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_TIMEZONE = 'UTC'
+    CELERYBEAT_SCHEDULE = {
+        'every-minute_add': {
+            'task': 'app.main.tasks.every_minute_add',
+            'schedule': timedelta(seconds=2),
+            'args': (3, 4)
+        },
+        'every-minute_multiply': {
+            'task': 'app.main.tasks.every_minute_multiply',
+            'schedule': timedelta(seconds=2),
+            'args': (3, 4)
+        },
+    }

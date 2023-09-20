@@ -6,6 +6,9 @@
     <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
+            <br/>
+            <p><b>Already have an account? <a href="{{ url_for('auth.login') }}"> Sign in</a></b></p>
         </div>
     </div>
+
 {% endblock %}

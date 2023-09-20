@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, FileField
-from wtforms.validators import DataRequired, ValidationError, Length, Email
+from wtforms import StringField, SubmitField, TextAreaField, FileField, PasswordField
+from wtforms.validators import DataRequired, ValidationError, Length, Email, Regexp, EqualTo
 
 from app.models import User
 
 
 class EditProfileForm(FlaskForm):
+    full_name = StringField('Full_Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])

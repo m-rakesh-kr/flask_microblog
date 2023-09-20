@@ -1,6 +1,8 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
+
+from celery import Celery
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,6 +11,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from config import Config
+from app.celery_utils import init_celery
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -18,6 +21,7 @@ login.login_message = 'Please log in to access this page.'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
+celery = Celery(__name__, broker=os.getenv('BROKER_URL_CELERY'), backend=os.getenv('BACKEND_URL_CELERY'))
 
 
 def create_app(config_class=Config):
@@ -30,7 +34,6 @@ def create_app(config_class=Config):
     mail.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
-
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 

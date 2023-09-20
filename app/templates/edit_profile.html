@@ -6,6 +6,10 @@
     <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
+            <br/>
+            <a href="{{ url_for('main.user', username=current_user.username) }}">
+                <button class="btn btn-secondary">Cancel</button>
+            </a>
         </div>
     </div>
 {% endblock %}

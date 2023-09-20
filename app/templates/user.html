@@ -5,6 +5,7 @@
         <tr>
             <td width="256px"><img src="{{ user.avatar(150) }}"></td>
             <td>
+                <h4>Full Name: {{ user.full_name }}</h4>
                 <h4>Username: {{ user.username }}</h4>
                 {% if user == current_user %}
                     <h4>Email: {{ user.email }}</h4>
@@ -19,7 +20,14 @@
                 </p>
 
                 {% if user == current_user %}
-                    <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <b><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></b>
+                            ||
+                            <b><a href="{{ url_for('main.change_password') }}"> Change Password</a></b>
+                        </div>
+                    </div>
+                    <br/>
                     <form action="{{ url_for('main.delete_profile') }}" method="post">
                         <button type="submit" class="btn btn-danger"
                                 onclick="return confirm('Are you sure you want to delete your profile and all your posts?');">
@@ -44,6 +52,7 @@
             </td>
         </tr>
     </table>
+    <h3> My posts</h3>
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}

@@ -3,6 +3,7 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from flask_login import current_user, login_required
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm, EditPostForm
+from app.auth.forms import SetPasswordForm
 from app.models import User, Post, Like, Comment
 from app.main import bp
 
@@ -110,6 +111,7 @@ def user(username):
 def edit_profile():
     form = EditProfileForm(current_user.username, current_user.email)
     if form.validate_on_submit():
+        current_user.full_name = form.full_name.data
         current_user.username = form.username.data
         current_user.email = form.email.data
         current_user.about_me = form.about_me.data
@@ -118,12 +120,26 @@ def edit_profile():
         return redirect(url_for('main.user', username=current_user.username))
 
     elif request.method == 'GET':
+        form.full_name.data = current_user.full_name
         form.username.data = current_user.username
         form.email.data = current_user.email
         form.about_me.data = current_user.about_me
 
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
+
+
+@bp.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = SetPasswordForm()
+    if form.validate_on_submit():
+        current_user.set_password(form.password.data)
+        db.session.commit()
+        flash('Password successfully Changed !')
+        return redirect(url_for('main.index'))
+
+    return render_template('auth/set_password.html', title='Change Password', form=form)
 
 
 @bp.route('/delete_profile', methods=['POST'])
