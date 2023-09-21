@@ -29,7 +29,7 @@ class Config(object):
 
     # Configuration for pagination..
     POSTS_PER_PAGE = 3  # recommended 25
-    FOLLOWERS_PER_PAGE = 10
+    FOLLOWERS_PER_PAGE = 3
     UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
 
     # Credentials of Social Authentication Providers

@@ -238,7 +238,7 @@ def followers(username):
     page = request.args.get('page', 1, type=int)
     followers = user.followers.paginate(
         page=page, per_page=current_app.config['FOLLOWERS_PER_PAGE'], error_out=False)
-    return render_template('followers.html', user=user, followers=followers)
+    return render_template('followers_list.html', user=user, followers=followers)
 
 
 @bp.route('/following/<username>')
@@ -247,7 +247,7 @@ def following(username):
     page = request.args.get('page', 1, type=int)
     following = user.followed.paginate(
         page=page, per_page=current_app.config['FOLLOWERS_PER_PAGE'], error_out=False)
-    return render_template('following.html', user=user, following=following)
+    return render_template('following_list.html', user=user, following=following)
 
 
 from flask import jsonify

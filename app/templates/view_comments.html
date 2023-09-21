@@ -1,13 +1,31 @@
-<!-- view_comments.html -->
 {% extends 'base.html' %}
 
 {% block app_content %}
-    <h4>Comments for Post</h4>
-    <p>Post Body:- {{ post.body }}</p>
-    <p>Comments of Users</p>
-    <ul>
-        {% for comment in comments %}
-            <li>{{ comment.user.username }} ({{ moment(comment.timestamp).fromNow() }}) said:- {{ comment.body }} </li>
-        {% endfor %}
-    </ul>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h4 class="mb-4">Comments for Post</h4>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Post Body:</h5>
+                        <p class="card-text">{{ post.body }}</p>
+                    </div>
+                </div>
+                <h3 class="mb-4">Comments from Users</h3>
+                <ul class="list-unstyled">
+                    {% for comment in comments %}
+                        <li class="media my-4">
+                            <img src="{{ comment.user.avatar(50) }}" alt="{{ comment.user.username }}" class="mr-3 rounded-circle" width="50">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ comment.user.username }}</h5>
+                                <p>{{ comment.body }}</p>
+                                <small class="text-muted">{{ moment(comment.timestamp).fromNow() }}</small>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button class="btn-xs"><a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Posts</a></button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

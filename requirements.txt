@@ -41,7 +41,6 @@ packaging==23.1
 pi==0.1.2
 prompt-toolkit==3.0.39
 protobuf==4.21.12
-psycopg2-binary==2.9.6
 PyJWT==2.8.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0

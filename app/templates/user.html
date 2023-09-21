@@ -3,10 +3,12 @@
 {% block app_content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <img src="{{ user.avatar(150) }}" class="img-responsive img-circle" style="width: 100%;">
+            <div class="col-md-2">
+{#                <img src="{{ user.avatar(150) }}" class="img-responsive img-circle" style="width: 100%;">#}
+                <img src="{{ user.avatar(150) }}" class="img-responsive img-circle"
+                     style="max-width: 100px; height: auto;">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <h4>Full Name: {{ user.full_name }}</h4>
                 <h4>Username: {{ user.username }}</h4>
                 {% if user == current_user %}
@@ -48,7 +50,6 @@
         {% for post in posts %}
             {% include '_post.html' %}
         {% endfor %}
-
         <nav aria-label="...">
             <ul class="pager">
                 <li class="previous{% if not prev_url %} disabled{% endif %}">

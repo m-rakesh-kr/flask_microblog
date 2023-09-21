@@ -15,22 +15,34 @@
             {{ post.body }}
             <br>
             <br>
-            {% if post.author == current_user %}
-                <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a> |
-                <a href="{{ url_for('main.delete_post', post_id=post.id) }}">Delete</a> |
-            {% endif %}
-
+            <!-- Like button -->
+            <span class="like-count"><b>{{ post.likes.count() }}</b></span>
             {% if post.has_liked_by(current_user) %}
-                <a href="{{ url_for('main.like_post', post_id=post.id) }}">Unlike</a>
+                <button>
+                    <a href="{{ url_for('main.like_post', post_id=post.id) }}">Unlike</a>
+                </button>
             {% else %}
-                <a href="{{ url_for('main.like_post', post_id=post.id) }}">Like</a>
+                <button>
+                    <a href="{{ url_for('main.like_post', post_id=post.id) }}">Like</a>
+                </button>
             {% endif %}
 
-            | <a href="{{ url_for('main.view_comments', post_id=post.id) }}">View Comments</a>
+            <!-- Comment button -->
+            <span class="comment-count"><b>{{ post.comments.count() }}</b></span>
+            <button class="comment-toggle" data-post-id="{{ post.id }}" data-commented="false">
+                <a href="{{ url_for('main.view_comments', post_id=post.id) }}">Comments</a>
+            </button>
+
+            {% if post.author == current_user %}
+                <button><a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a></button>
+                <button><a href="{{ url_for('main.delete_post', post_id=post.id) }}">Delete</a></button>
+            {% endif %}
 
             <!-- Include a form to submit comments -->
             <form method="post" action="{{ url_for('main.comment_post', post_id=post.id) }}">
-                <textarea name="comment" placeholder="Write a comment"></textarea>
+                <div style="margin-top: 10px;"> <!-- Add margin-top here to shift the textarea -->
+                    <textarea name="comment" placeholder="Write a comment"></textarea>
+                </div>
                 <button type="submit">Comment</button>
             </form>
         </td>
