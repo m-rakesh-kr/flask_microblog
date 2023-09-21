@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <table class="table table-hover">
-        <tr>
-            <td width="256px"><img src="{{ user.avatar(150) }}"></td>
-            <td>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ user.avatar(150) }}" class="img-responsive img-circle" style="width: 100%;">
+            </div>
+            <div class="col-md-8">
                 <h4>Full Name: {{ user.full_name }}</h4>
                 <h4>Username: {{ user.username }}</h4>
                 {% if user == current_user %}
@@ -18,16 +20,10 @@
                     <a href="{{ url_for('main.following', username=user.username) }}">{{ user.followed.count() }}
                         following</a>.
                 </p>
-
                 {% if user == current_user %}
-                    <div class="row">
-                        <div class="col-md-8">
-                            <b><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></b>
-                            ||
-                            <b><a href="{{ url_for('main.change_password') }}"> Change Password</a></b>
-                        </div>
-                    </div>
-                    <br/>
+                    <p><b><a href="{{ url_for('main.edit_profile') }}" class="btn btn-info">Edit Profile</a></b></p>
+                    <p><b><a href="{{ url_for('main.change_password') }}" class="btn btn-info">Change Password</a></b></p>
+
                     <form action="{{ url_for('main.delete_profile') }}" method="post">
                         <button type="submit" class="btn btn-danger"
                                 onclick="return confirm('Are you sure you want to delete your profile and all your posts?');">
@@ -35,39 +31,37 @@
                         </button>
                     </form>
                 {% elif not current_user.is_following(user) %}
-                    <p>
                     <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value='Follow', class_='btn btn-default') }}
                     </form>
-                    </p>
                 {% else %}
-                    <p>
                     <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
                         {{ form.hidden_tag() }}
                         {{ form.submit(value='Unfollow', class_='btn btn-default') }}
                     </form>
-                    </p>
                 {% endif %}
-            </td>
-        </tr>
-    </table>
-    <h3> My posts</h3>
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous{% if not prev_url %} disabled{% endif %}">
-                <a href="{{ prev_url or '#' }}">
-                    <span aria-hidden="true">&larr;</span> Newer posts
-                </a>
-            </li>
-            <li class="next{% if not next_url %} disabled{% endif %}">
-                <a href="{{ next_url or '#' }}">
-                    Older posts <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+            </div>
+        </div>
+
+        <h3>My posts</h3>
+        {% for post in posts %}
+            {% include '_post.html' %}
+        {% endfor %}
+
+        <nav aria-label="...">
+            <ul class="pager">
+                <li class="previous{% if not prev_url %} disabled{% endif %}">
+                    <a href="{{ prev_url or '#' }}">
+                        <span aria-hidden="true">&larr;</span> Newer posts
+                    </a>
+                </li>
+                <li class="next{% if not next_url %} disabled{% endif %}">
+                    <a href="{{ next_url or '#' }}">
+                        Older posts <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
