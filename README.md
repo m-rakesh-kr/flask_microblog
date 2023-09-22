@@ -73,6 +73,13 @@ MAIL_PORT=587
 MAIL_USE_TLS=true
 MAIL_USERNAME=your@email.com
 MAIL_PASSWORD=your_email_password
+
+BROKER_URL_CELERY = ''
+BACKEND_URL_CELERY = ''
+
+#configuration for Social Auth
+GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_SECRET = ""
 ```
 
 ## Contributing
